@@ -27,68 +27,37 @@ echo $width . " " . $height . "\n\n";
 // make an empty grid of dots
 for($i=0;$i<$height;$i++) {
 	for($j=0;$j<$width;$j++) {
-		$grid[$i][$j] = '-';
+		$grid[$i][$j] = '.';
 	}
 }
 
 //display($grid);
+$areasize = 0;
 
 foreach($grid as $x=>$col) {
 	foreach($col as $y=>$cell) {
-		$pointdists = array();
+
+		$totaldist = 0;
 		foreach($coords as $pointnum=>$coord) {
 			$dist = manhattandistance($x, $y, $coord[0], $coord[1]);
-			$pointdists[$pointnum] = $dist;
-//			echo $dist . "\n";
+			$totaldist += $dist;
 		}
-		asort($pointdists);
-//		echo "point distances: \n\n";
-//		print_r($pointdists);
-		$d = array_keys($pointdists);
-		if ($pointdists[$d[0]] == $pointdists[$d[1]]) {
-			$grid[$x][$y] = '.';
-			echo 'two are the same distance!' . "\n";
+
+		if ($totaldist < 10000) {
+			$grid[$x][$y] = 'X';
+			$areasize++;
 		} else {
-			$grid[$x][$y] = $d[0];
+			$grid[$x][$y] = '/';
 		}
 
 	}
-	echo '.';
 }
 
 display($grid);
 
-$counts = array();
-$infinites = array();
-$firstrow = true;
-foreach($grid as $x=>$col) {
-	$firstcol = true;
-	$val = -1;
-	foreach($col as $y=>$cell) {
-		$val = $grid[$x][$y];
-		if ($firstrow) {
-			$infinites[$val] = true;
-			$firstrow = false;
-		}
-		if ($firstcol) {
-			$infinites[$val] = true;
-			$firstcol = false;
-		}
-		$counts[$val]++;
-	}
-	$lastcol = $val;
-	$infinites[$lastcol] = true;
-}
-
-print_r($counts);
-print_r($infinites);
-
-foreach(array_keys($infinites) as $inf) {
-	unset($counts[$inf]);
-}
-
-asort($counts);
-print_r($counts);
+echo "\n\n";
+echo $areasize;
+echo "\n\n";
 
 function display($g) {
 	foreach($g as $y=>$col) {
