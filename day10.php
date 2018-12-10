@@ -28,7 +28,7 @@ foreach($lines as $line) {
 	);
 }
 
-for ($t=10941;$t<10950;$t++) {
+for ($t=10946;$t<10950;$t++) {
 
 echo "\n";
 echo "\n";
@@ -55,20 +55,20 @@ echo "\n";
 	}
 
 	$grid = array();
-	for($i=$minx;$i<$maxx;$i++) {		
+	for($i=$miny;$i<=$maxy;$i++) {		
 		$grid[$i] = array();
-		for($j=$minx;$j<$maxx;$j++) {
+		for($j=$minx;$j<=$maxx;$j++) {
 			$grid[$i][$j] = '.';
 		}
 	}
-	for ($i=0;$i<count($points);$i++) {
+	for ($i=0;$i<=count($points);$i++) {
 		$newx = $points[$i]['x'] + ($points[$i]['velx'] * $t);
 		$newy = $points[$i]['y'] + ($points[$i]['vely'] * $t);
-		$grid[$newx][$newy] = '#';
+		$grid[$newy][$newx] = '#';
 	}
 
-	foreach($grid as $x) {
-		foreach($x as $c) {
+	foreach($grid as $y) {
+		foreach($y as $c) {
 			echo $c;
 		}
 		echo "\n";
